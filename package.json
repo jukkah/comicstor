@@ -5,7 +5,7 @@
   "author": "Jukka Hyytiälä",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/.bin/webpack",
+    "build": "webpack",
     "start": "node dist/server.js"
   },
   "dependencies": {

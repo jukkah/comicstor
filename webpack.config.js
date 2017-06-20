@@ -12,12 +12,12 @@ const serverConfig = {
   entry: './src/server/index.js',
   output: {
     filename: 'server.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
-    ]
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+    ],
   },
   externals: nodeModules,
   plugins: [
@@ -31,6 +31,19 @@ const serverConfig = {
   devtool: 'sourcemap',
 }
 
-const clientConfig = {}
+const clientConfig = {
+  target: 'web',
+  entry: './src/client/index.js',
+  output: {
+    filename: 'client.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+    ],
+  },
+  devtool: 'sourcemap'
+}
 
-module.exports = [serverConfig, /* clientConfig */]
+module.exports = [serverConfig, clientConfig]

@@ -16,6 +16,8 @@
     "graphql-tools": "^1.0.0",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "redux": "^3.6.0"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
     "flow-bin": "^0.47.0",
     "source-map-support": "^0.4.15",
     "webpack": "^2.6.1"

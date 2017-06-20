@@ -9,6 +9,10 @@ fs.readdirSync('node_modules')
 
 const serverConfig = {
   target: 'node',
+  node: {
+    __dirname: true,
+    __filename: true,
+  },
   entry: './src/server/index.js',
   output: {
     filename: 'server.js',
@@ -36,7 +40,7 @@ const clientConfig = {
   entry: './src/client/index.js',
   output: {
     filename: 'client.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist', 'public'),
   },
   module: {
     rules: [

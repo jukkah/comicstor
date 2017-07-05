@@ -1,5 +1,7 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import App from '../client/App'
 
 const template = ({ title = '', body = '', state = {} }) => (`
@@ -22,9 +24,16 @@ const template = ({ title = '', body = '', state = {} }) => (`
 `);
 
 export default function render(req, res) {
-  const title = 'Hello World'
-  const body = renderToString(<App />)
   const state = {}
-  const content = template({ title, body, state })
-  res.send(content)
+  const reducer = state => state
+  const store = createStore(reducer, state)
+
+  const title = 'Hello World'
+  const body = renderToString(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+
+  res.send(template({ title, body, state }))
 }

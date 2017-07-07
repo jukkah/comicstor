@@ -1,7 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import { fromJS } from 'immutable'
 import { logFile } from '../../config'
-import reducer from './reducer'
+import { reducer, emptyState } from './reducer'
 
 function readFileOr(path, options, defaultContent) {
   try {
@@ -24,7 +25,7 @@ const loadState = () => {
   const filePath = path.resolve(process.cwd(), logFile)
   try {
     const actions = readLinesFromFile().map(line => JSON.parse(line))
-    return actions.reduce(reducer, {})
+    return actions.reduce(reducer, emptyState)
   } catch (cause) {
     console.error(`Cannot load action log from file ${filePath}`)
     throw cause

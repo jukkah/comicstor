@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
-import reducer from './reducer'
+import { reducer } from './reducer'
 import persister from './persister'
 import loadState from './loader'
 

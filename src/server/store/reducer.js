@@ -1,6 +1,11 @@
-import { combineReducers } from 'redux'
+import { fromJS } from 'immutable'
+import { combineReducers } from 'redux-immutable'
 import comicBooks from './comicBooks'
 
-export default combineReducers({
+export const reducer = combineReducers({
   comicBooks,
+})
+
+export const emptyState = fromJS({
+  comicBooks: undefined,
 })

@@ -28,7 +28,7 @@ export default function render(req, res) {
   const reducer = state => state
   const store = createStore(reducer, serverStore.getState())
 
-  const state = store.getState()
+  const state = store.getState().toJS()
   const title = 'Hello World'
   const body = renderToString(
     <Provider store={store}>

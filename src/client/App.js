@@ -1,20 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { List, ListItem } from 'material-ui/List'
+
 class App extends React.PureComponent {
   render() {
     return (
-      <ul>
+      <List>
         {this.renderComicBooks()}
-      </ul>
+      </List>
     )
   }
 
   renderComicBooks() {
     return this.props.comicBooks.map(comicBook => (
-      <li key={comicBook.id}>
-        ID: {comicBook.id}
-      </li>
+      <ListItem
+        key={comicBook.id}
+        primaryText={comicBook.id}
+      />
     ))
   }
 }

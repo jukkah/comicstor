@@ -1,8 +1,9 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import serverStore from './store'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import Main from '../client/Main'
 import App from '../client/App'
 
 const template = ({ title = '', body = '', state = {} }) => (`
@@ -11,6 +12,7 @@ const template = ({ title = '', body = '', state = {} }) => (`
     <head>
       <meta charset="UTF-8">
       <title>${title}</title>
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
       <div id="root">${body}</div>
@@ -28,12 +30,16 @@ export default function render(req, res) {
   const reducer = state => state
   const store = createStore(reducer, serverStore.getState())
 
+  const muiTheme = getMuiTheme({}, {
+    userAgent: req.headers['user-agent'],
+  })
+
   const state = store.getState().toJS()
   const title = 'Hello World'
   const body = renderToString(
-    <Provider store={store}>
+    <Main store={store} muiTheme={muiTheme}>
       <App />
-    </Provider>
+    </Main>
   )
 
   res.send(template({ title, body, state }))

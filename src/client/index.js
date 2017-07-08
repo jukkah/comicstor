@@ -1,8 +1,9 @@
 import { fromJS } from 'immutable'
 import React from 'react'
 import { render } from 'react-dom'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import Main from './Main'
 import App from './App'
 
 const preloadedState = fromJS(window.__PRELOADED_STATE__)
@@ -15,9 +16,13 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 render(
-  <Provider store={store}>
+  <Main store={store}>
     <App />
-  </Provider>,
+  </Main>,
   document.getElementById('root')
 )

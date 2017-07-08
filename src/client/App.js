@@ -15,15 +15,15 @@ class App extends React.PureComponent {
   renderComicBooks() {
     return this.props.comicBooks.map(comicBook => (
       <ListItem
-        key={comicBook.id}
-        primaryText={comicBook.id}
+        key={comicBook.get('id')}
+        primaryText={comicBook.get('id')}
       />
     ))
   }
 }
 
 const mapStateToProps = state => ({
-  comicBooks: state.get('comicBooks').toJS(),
+  comicBooks: state.get('comicBooks'),
 })
 
 export default connect(mapStateToProps)(App)

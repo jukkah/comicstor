@@ -13,6 +13,7 @@ const template = ({ title = '', body = '', state = {} }) => (`
       <meta charset="UTF-8">
       <title>${title}</title>
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <script async src="/client.js"></script>
     </head>
     <body>
       <div id="root">${body}</div>
@@ -22,7 +23,6 @@ const template = ({ title = '', body = '', state = {} }) => (`
           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')};
       </script>
     </body>
-    <script src="/client.js"></script>
   </html>
 `);
 

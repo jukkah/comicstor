@@ -1,10 +1,11 @@
-import { fromJS } from 'immutable'
 import React from 'react'
-import { render } from 'react-dom'
+import { render } from 'react-dom';
+import { fromJS } from 'immutable'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { createStore } from 'redux'
-import Main from './Main'
-import App from './App'
+
+import Main from './components/Main'
+import App from './components/App'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941

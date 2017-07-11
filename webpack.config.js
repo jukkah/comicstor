@@ -37,7 +37,7 @@ const serverConfig = {
 
 const clientConfig = {
   target: 'web',
-  entry: './src/client/index.js',
+  entry: './src/app/client.js',
   output: {
     filename: 'client.js',
     path: path.resolve(__dirname, 'dist', 'public'),

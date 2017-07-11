@@ -5,7 +5,7 @@ import { graphqlExpress, graphiqlExpress } from 'graphql-server-express'
 import { promisify } from 'util'
 import { port, enableGraphiQL } from '../config'
 import schema from './schema'
-import render from './render'
+import serverRender from '../app/server'
 
 const server = express();
 
@@ -17,7 +17,7 @@ if (enableGraphiQL) {
 
 server.use(express.static(path.join(__dirname, '../../dist/public')))
 
-server.use('/', render)
+server.use(serverRender())
 
 server.listen(port, () => {
   console.log(`Server listening on port http://localhost:${port}`);

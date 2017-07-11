@@ -1,10 +1,11 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { createStore } from 'redux'
-import serverStore from './store'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import Main from '../client/Main'
-import App from '../client/App'
+
+import serverStore from '../server/store'
+import Main from './components/Main'
+import App from './components/App'
 
 const template = ({ title = '', body = '', state = {} }) => (`
   <!DOCTYPE html>
@@ -24,23 +25,25 @@ const template = ({ title = '', body = '', state = {} }) => (`
       </script>
     </body>
   </html>
-`);
+`)
 
-export default function render(req, res) {
-  const reducer = state => state
-  const store = createStore(reducer, serverStore.getState())
+export default function serverRenderer() {
+  return (req, res, next) => {
+    const reducer = state => state
+    const store = createStore(reducer, serverStore.getState())
 
-  const muiTheme = getMuiTheme({}, {
-    userAgent: req.headers['user-agent'],
-  })
+    const muiTheme = getMuiTheme({}, {
+      userAgent: req.headers['user-agent'],
+    })
 
-  const state = store.getState().toJS()
-  const title = 'Hello World'
-  const body = renderToString(
-    <Main store={store} muiTheme={muiTheme}>
-      <App />
-    </Main>
-  )
+    const state = store.getState().toJS()
+    const title = 'Hello World'
+    const body = renderToString(
+      <Main store={store} muiTheme={muiTheme}>
+        <App />
+      </Main>
+    )
 
-  res.send(template({ title, body, state }))
+    res.send(template({ title, body, state }))
+  }
 }

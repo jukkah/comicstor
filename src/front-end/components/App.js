@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import { List, ListItem } from 'material-ui/List'
 
 class App extends React.PureComponent {

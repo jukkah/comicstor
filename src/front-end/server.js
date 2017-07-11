@@ -3,9 +3,8 @@ import { renderToString } from 'react-dom/server'
 import { createStore } from 'redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import serverStore from '../server/store'
+import serverStore from '../back-end/store'
 import Main from './components/Main'
-import App from './components/App'
 
 const template = ({ title = '', body = '', state = {} }) => (`
   <!DOCTYPE html>
@@ -39,9 +38,7 @@ export default function serverRenderer() {
     const state = store.getState().toJS()
     const title = 'Hello World'
     const body = renderToString(
-      <Main store={store} muiTheme={muiTheme}>
-        <App />
-      </Main>
+      <Main store={store} muiTheme={muiTheme} />
     )
 
     res.send(template({ title, body, state }))

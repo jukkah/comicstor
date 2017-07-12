@@ -34,6 +34,7 @@
     "babel-preset-react": "^6.24.1",
     "flow-bin": "^0.47.0",
     "source-map-support": "^0.4.15",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "webpack-node-externals": "^1.6.0"
   }
 }

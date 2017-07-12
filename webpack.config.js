@@ -1,21 +1,35 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
-let nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(x => ['.bin'].indexOf(x) === -1)
-  .forEach(mod => nodeModules[mod] = 'commonjs ' + mod);
-
-const serverConfig = {
+module.exports = [{
+  target: 'web',
+  entry: {
+    'client': './src/front-end/client.js',
+  },
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist', 'public'),
+  },
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+    ],
+  },
+  devtool: 'source-map'
+}, {
   target: 'node',
   node: {
     __dirname: true,
     __filename: true,
   },
-  entry: './src/back-end/index.js',
+  entry: {
+    'server': './src/server/index.js',
+  },
   output: {
-    filename: 'server.js',
+    filename: '[name].js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -23,7 +37,7 @@ const serverConfig = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
     ],
   },
-  externals: nodeModules,
+  externals: [nodeExternals()],
   plugins: [
     new webpack.IgnorePlugin(/\.css$/),
     new webpack.BannerPlugin({
@@ -32,22 +46,5 @@ const serverConfig = {
       entryOnly: false,
     }),
   ],
-  devtool: 'sourcemap',
-}
-
-const clientConfig = {
-  target: 'web',
-  entry: './src/front-end/client.js',
-  output: {
-    filename: 'client.js',
-    path: path.resolve(__dirname, 'dist', 'public'),
-  },
-  module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-    ],
-  },
-  devtool: 'sourcemap'
-}
-
-module.exports = [serverConfig, clientConfig]
+  devtool: 'source-map',
+}]

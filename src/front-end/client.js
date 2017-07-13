@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
 import { fromJS } from 'immutable'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { createStore } from 'redux'

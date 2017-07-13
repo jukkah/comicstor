@@ -7,7 +7,7 @@ let currentApp = app
 
 const server = http.createServer(app)
 server.on('listening', () => {
-  console.log(`Server listening on ${server.address()}`)
+  console.log(`Server listening on http://localhost:${server.address().port}`)
 })
 server.on('close', () => {
   console.log(`Server closed`)

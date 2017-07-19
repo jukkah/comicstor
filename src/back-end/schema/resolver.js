@@ -8,7 +8,7 @@ export const resolver = {
     // currencyCodes(): [String!]!
     currencyCodes() {
       return _.uniq(
-        _.flatMap(store.getState().comicBooks.toJS(), (comicBook) => [
+        _.flatMap(store.getState().get('comicBooks').toJS(), (comicBook) => [
           comicBook.originalPrice.code,
           comicBook.purchasePrice.code,
         ]),
@@ -16,12 +16,12 @@ export const resolver = {
     },
     // comicBooks(): [ComicBook!]!
     comicBooks() {
-      return store.getState().comicBooks.toJS();
+      return store.getState().get('comicBooks').toJS();
     },
     // tags(): [String!]!
     tags() {
       return _.uniq(
-        _.flatMap(store.getState().comicBooks.toJS(), (comicBook) => comicBook.tags)
+        _.flatMap(store.getState().get('comicBooks').toJS(), (comicBook) => comicBook.tags)
       )
     },
   },
@@ -43,7 +43,7 @@ export const resolver = {
 }
 
 function findById(id) {
-  const comicBooks = store.getState().comicBooks
+  const comicBooks = store.getState().get('comicBooks')
   const comicBook = comicBooks.find(comicBook => comicBook.get('id') === id)
   return comicBook ? comicBook.toJS() : null
 }

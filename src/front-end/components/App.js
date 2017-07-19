@@ -1,13 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { List, ListItem } from 'material-ui/List'
+import AppBar from 'material-ui/AppBar'
 
 class App extends React.PureComponent {
   render() {
     return (
-      <List>
-        {this.renderComicBooks()}
-      </List>
+      <div>
+        <AppBar />
+        <List>
+          {this.renderComicBooks()}
+        </List>
+      </div>
     )
   }
 

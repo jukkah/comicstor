@@ -3,6 +3,7 @@ import path from 'path'
 import { fromJS } from 'immutable'
 import { logFile } from '../../config'
 import { reducer, emptyState } from './reducer'
+import migrateActions from './migrations'
 
 function readFileOr(path, options, defaultContent) {
   try {
@@ -25,7 +26,8 @@ const loadState = () => {
   const filePath = path.resolve(process.cwd(), logFile)
   try {
     const actions = readLinesFromFile().map(line => JSON.parse(line))
-    return actions.reduce(reducer, emptyState)
+    const migratedActions = migrateActions(actions)
+    return migratedActions.reduce(reducer, emptyState)
   } catch (cause) {
     console.error(`Cannot load action log from file ${filePath}`)
     throw cause

@@ -1,6 +1,7 @@
 export const ComicBook = `
   type ComicBook {
     id: ID!
+    name: String
     number: String
     published: String
     coverPhoto: String
@@ -15,6 +16,7 @@ export const ComicBook = `
 export const ComicBookInput = `
   input ComicBookInput {
     id: ID!
+    name: String
     number: String
     published: String
     coverPhoto: String

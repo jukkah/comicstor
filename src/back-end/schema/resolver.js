@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import store from '../store'
+import { store } from '../store'
 import { createComicBook, updateComicBook } from '../store/comicBooks'
 
 export const resolver = {

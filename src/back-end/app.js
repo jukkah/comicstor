@@ -6,6 +6,7 @@ import { graphqlExpress, graphiqlExpress } from 'graphql-server-express'
 import { enableGraphiQL } from '../config'
 import schema from './schema'
 import serverRender from '../front-end/server'
+import logFileApi from './log-file-api'
 
 const app = express()
 
@@ -16,6 +17,8 @@ if (enableGraphiQL) {
 }
 
 app.use(express.static(path.join(__dirname, '../../dist/public')))
+
+app.use(logFileApi())
 
 app.use(serverRender())
 

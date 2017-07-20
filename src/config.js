@@ -6,4 +6,8 @@ export const enableGraphiQL = process.env.ENABLE_GRAPHIQL || true
 
 export const logFile = process.env.LOG_FILE || 'store.log'
 
+export const enableLogFileExport = process.env.ENABLE_LOG_FILE_EXPORT || true
+
+export const enableLogFileImport = process.env.ENABLE_LOG_FILE_IMPORT || true
+
 // = App config ================================================================

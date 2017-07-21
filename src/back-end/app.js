@@ -16,7 +16,10 @@ if (enableGraphiQL) {
   app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 }
 
-app.use(express.static(path.join(__dirname, '../../dist/public')))
+app.use(express.static(
+  path.join(__dirname, '../../dist/public'),
+  { maxAge: '1y' }
+))
 
 app.use(logFileApi())
 

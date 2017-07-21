@@ -1,12 +1,14 @@
 import _ from 'lodash'
 
-import { store } from '../store'
+import { getStore } from '../store'
+
 import { createComicBook, updateComicBook } from '../store/comicBooks'
 
 export const resolver = {
   Query: {
     // currencyCodes(): [String!]!
-    currencyCodes() {
+    async currencyCodes() {
+      const store = await getStore()
       return _.uniq(
         _.flatMap(store.getState().get('comicBooks').toJS(), (comicBook) => [
           comicBook.originalPrice.code,
@@ -15,11 +17,13 @@ export const resolver = {
       )
     },
     // comicBooks(): [ComicBook!]!
-    comicBooks() {
+    async comicBooks() {
+      const store = await getStore()
       return store.getState().get('comicBooks').toJS();
     },
     // tags(): [String!]!
-    tags() {
+    async tags() {
+      const store = await getStore()
       return _.uniq(
         _.flatMap(store.getState().get('comicBooks').toJS(), (comicBook) => comicBook.tags)
       )
@@ -27,22 +31,25 @@ export const resolver = {
   },
   Mutation: {
     // addComicBook(input: ComicBookInput!): ComicBook
-    addComicBook(root, { input }) {
+    async addComicBook(root, { input }) {
+      const store = await getStore()
       const comicBook = { ...input }
-      store.dispatch(createComicBook(comicBook))
+      await store.dispatch(createComicBook(comicBook))
       return findById(comicBook.id)
     },
 
     // updateComicBook(input: ComicBookInput!): ComicBook
-    updateComicBook(root, { input }) {
+    async updateComicBook(root, { input }) {
+      const store = await getStore()
       const comicBook = { ...input }
-      store.dispatch(updateComicBook(comicBook))
+      await store.dispatch(updateComicBook(comicBook))
       return findById(comicBook.id)
     }
   }
 }
 
-function findById(id) {
+async function findById(id) {
+  const store = await getStore()
   const comicBooks = store.getState().get('comicBooks')
   const comicBook = comicBooks.find(comicBook => comicBook.get('id') === id)
   return comicBook ? comicBook.toJS() : null

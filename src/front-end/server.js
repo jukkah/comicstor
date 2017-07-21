@@ -4,7 +4,7 @@ import { createStore } from 'redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import { store as serverStore } from '../back-end/store'
+import { getStore } from '../back-end/store'
 import Main from './components/Main'
 
 // Needed for onTouchTap
@@ -33,8 +33,9 @@ const template = ({ title = '', body = '', state = {} }) => (`
 `)
 
 export default function serverRenderer() {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const reducer = state => state
+    const serverStore = await getStore()
     const store = createStore(reducer, serverStore.getState())
 
     const muiTheme = getMuiTheme({}, {

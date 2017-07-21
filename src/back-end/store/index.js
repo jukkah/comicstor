@@ -3,14 +3,27 @@ import { reducer } from './reducer'
 import persister from './persister'
 import loadState from './loader'
 
-const makeStore = () => {
-  const store = createStore(reducer, loadState(), applyMiddleware(persister))
+let store
+let promise
+
+export const getStore = async () => {
+  if (store) return store
+
+  if (!promise) {
+    promise = reloadStore()
+  }
+
+  await promise
+  promise = undefined
+  return store
+}
+
+export const reloadStore = async () => {
+  store = undefined
+  const state = await loadState()
+  store = createStore(reducer, state, applyMiddleware(persister))
   console.log('Server state loaded successfully')
   return store
 }
 
-export let store = makeStore()
-
-export const reloadStore = () => {
-  store = makeStore()
-}
+reloadStore()

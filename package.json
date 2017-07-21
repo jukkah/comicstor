@@ -9,6 +9,9 @@
     "start": "node dist/server.js",
     "heroku-postbuild": "yarn build"
   },
+  "engines": {
+    "node": "~8.0.0"
+  },
   "dependencies": {
     "body-parser": "^1.17.2",
     "dropbox-fs": "^0.0.5",

@@ -1,9 +1,8 @@
-import fs from 'fs'
 import { promisify } from 'util'
-import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 
+import fs from './fs'
 import { logFile, enableLogFileExport, enableLogFileImport } from '../config'
 import { reloadStore } from './store'
 
@@ -17,8 +16,7 @@ export default function logFileApi() {
   if (enableLogFileExport) {
     router.get(`/${logFile}`, async (req, res) => {
       try {
-        const filePath = path.resolve(process.cwd(), logFile)
-        const content = await readFile(filePath)
+        const content = await readFile(logFile)
         res.append('Content-Type', 'text/plain')
         res.send(content)
       } catch (err) {
@@ -30,8 +28,7 @@ export default function logFileApi() {
   if (enableLogFileImport) {
     router.put(`/${logFile}`, async (req, res) => {
       try {
-        const filePath = path.resolve(process.cwd(), logFile)
-        await writeFile(filePath, req.body)
+        await writeFile(logFile, req.body)
         reloadStore()
         res.status(200).send()
       } catch (err) {

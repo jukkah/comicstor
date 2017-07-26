@@ -1,5 +1,6 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom'
 import { createStore } from 'redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -10,6 +11,51 @@ import Main from './components/Main'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+export default function serverRenderer() {
+  return async (req, res, next) => {
+    const context = await getContext(req)
+    const content = render({ context, location: req.url })
+
+    if (context.url) {
+      res.redirect(301, context.url)
+    } else {
+      res.send(template({
+        body: content,
+        title: context.title,
+        state: context.store.getState().toJS()
+      }))
+    }
+  }
+}
+
+const getContext = async (req) => {
+  return {
+    title: 'Comicstor App',
+    store: await getClientStore(),
+    theme: getTheme(req),
+  }
+}
+
+const getClientStore = async () => {
+  const reducer = state => state
+  const serverStore = await getStore()
+  return createStore(reducer, serverStore.getState())
+}
+
+const getTheme = (req) => {
+  return getMuiTheme({}, {
+    userAgent: req.headers['user-agent'],
+  })
+}
+
+const render = ({ context, location }) => {
+  return renderToString(
+    <StaticRouter location={location} context={context}>
+      <Main store={context.store} muiTheme={context.theme} />
+    </StaticRouter>
+  )
+}
 
 const template = ({ title = '', body = '', state = {} }) => (`
   <!DOCTYPE html>
@@ -31,23 +77,3 @@ const template = ({ title = '', body = '', state = {} }) => (`
     </body>
   </html>
 `)
-
-export default function serverRenderer() {
-  return async (req, res, next) => {
-    const reducer = state => state
-    const serverStore = await getStore()
-    const store = createStore(reducer, serverStore.getState())
-
-    const muiTheme = getMuiTheme({}, {
-      userAgent: req.headers['user-agent'],
-    })
-
-    const state = store.getState().toJS()
-    const title = 'Hello World'
-    const body = renderToString(
-      <Main store={store} muiTheme={muiTheme} />
-    )
-
-    res.send(template({ title, body, state }))
-  }
-}

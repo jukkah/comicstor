@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { fromJS } from 'immutable'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { createStore } from 'redux'
@@ -16,23 +17,34 @@ if (document.readyState === 'loading') {
   initApp()
 }
 
-function initApp() {
+const initApp = () => {
+  const store = getStore()
+  renderApp(store)
+}
+
+const getStore = () => {
   const preloadedState = fromJS(window.__PRELOADED_STATE__)
   delete window.__PRELOADED_STATE__
 
   const reducer = state => state
-  const store = createStore(
+  return createStore(
     reducer,
     preloadedState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
-
-  renderApp(store)
 }
 
-function renderApp(store) {
+const renderApp = (store) => {
   ReactDOM.render(
-    <Main store={store} />,
+    render(store),
     document.getElementById('root')
+  )
+}
+
+const render = (store) => {
+  return (
+    <BrowserRouter>
+      <Main store={store} />
+    </BrowserRouter>
   )
 }

@@ -11,12 +11,6 @@ import Main from './components/Main'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-if (document.readyState === 'loading') {
-  document.addEventListener("DOMContentLoaded", initApp)
-} else {
-  initApp()
-}
-
 const initApp = () => {
   const store = getStore()
   renderApp(store)
@@ -47,4 +41,10 @@ const render = (store) => {
       <Main store={store} />
     </BrowserRouter>
   )
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", initApp)
+} else {
+  initApp()
 }

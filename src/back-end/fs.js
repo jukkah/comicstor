@@ -19,21 +19,23 @@ const dfs = (dropboxApiKey) => {
 }
 
 const dropboxReadFile = (path) => {
-  return dfs(dropboxApiKey).readFile(`/${path}`, { encoding: 'utf8' })
-}
-
-const dropboxWriteFile = (path, content) => {
-  return dfs(dropboxApiKey).writeFile(`/${path}`, content, { encoding: 'utf8' })
-}
-
-const fsReadFile = (path) => {
-  const readFile = promisify(fs.readFile)
-  return readFile(path, { encoding: 'utf8' }).catch((error) => {
+  const readFile = promisify(dfs(dropboxApiKey).readFile)
+  return readFile(`/${path}`, { encoding: 'utf8' }).catch((error) => {
     if (error.status === 409 && error.error.indexOf('not_found') !== -1) {
       error.code = 'ENOENT'
     }
     throw error
   })
+}
+
+const dropboxWriteFile = (path, content) => {
+  const writeFile = promisify(dfs(dropboxApiKey).writeFile)
+  return writeFile(`/${path}`, content, { encoding: 'utf8' })
+}
+
+const fsReadFile = (path) => {
+  const readFile = promisify(fs.readFile)
+  return readFile(path, { encoding: 'utf8' })
 }
 
 const fsWriteFile = (path, content) => {

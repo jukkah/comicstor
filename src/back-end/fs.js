@@ -14,7 +14,7 @@ export const writeFile = (...options) => {
 
 const dfs = (dropboxApiKey) => {
   return dropboxFs({
-    apikey: dropboxApiKey,
+    apiKey: dropboxApiKey,
   })
 }
 

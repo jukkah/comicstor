@@ -1,16 +1,12 @@
-import { promisify } from 'util'
-
-import fs from '../fs'
+import { writeFile } from '../fs'
 import { readFileOr } from './loader'
 import { logFile } from '../../config'
 
-const writeFile = promisify(fs.writeFile)
-
 const appendLineToFile = async (line) => {
   try {
-    const oldContent = await readFileOr(logFile, { encoding: 'utf8' }, '')
+    const oldContent = await readFileOr(logFile, '')
     const newContent = oldContent + line + '\n'
-    await writeFile(logFile, newContent, { encoding: 'utf8' })
+    await writeFile(logFile, newContent)
   } catch (error) {
     console.error(`Cannot append action to permanent log ${logFile}`)
     console.error(error)

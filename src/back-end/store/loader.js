@@ -1,18 +1,15 @@
-import { promisify } from 'util'
 import { fromJS } from 'immutable'
 
-import fs from '../fs'
+import { readFile } from '../fs'
 import { logFile } from '../../config'
 import { reducer, emptyState } from './reducer'
 import migrateActions from './migrations'
 
-const readFile = promisify(fs.readFile)
-
-export const readFileOr = async (path, options, defaultContent) => {
+export const readFileOr = async (path, defaultContent) => {
   try {
-    return await readFile(path, options)
+    return await readFile(path)
   } catch (error) {
-    if (error.status === 409 && error.error.indexOf('not_found') !== -1) {
+    if (error.code === 'ENOENT') {
       return defaultContent
     }
     throw error
@@ -20,7 +17,7 @@ export const readFileOr = async (path, options, defaultContent) => {
 }
 
 const readLinesFromFile = async () => {
-  const content = await readFileOr(logFile, { encoding: 'utf8' }, '')
+  const content = await readFileOr(logFile, '')
   return content.split('\n').filter(line => line !== '')
 }
 

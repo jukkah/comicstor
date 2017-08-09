@@ -1,13 +1,9 @@
-import { promisify } from 'util'
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import fs from './fs'
+import { writeFile, readFile } from './fs'
 import { logFile, enableLogFileExport, enableLogFileImport } from '../config'
 import { reloadStore } from './store'
-
-const writeFile = promisify(fs.writeFile)
-const readFile = promisify(fs.readFile)
 
 export default function logFileApi() {
   const router = express.Router()

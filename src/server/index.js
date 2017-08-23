@@ -1,36 +1,25 @@
-import 'regenerator-runtime/runtime'
-import http from 'http'
+import path from 'path'
+import express from 'express'
+import bodyParser from 'body-parser'
+import { graphqlExpress, graphiqlExpress } from 'graphql-server-express'
 
-import app from '../back-end/app'
-import { port } from '../config'
+import { enableGraphiQL } from '../config'
+import schema from './schema'
+import serverRender from './server-side-render'
+import logFileApi from './log-file-api'
 
-let currentApp = app
+const app = express()
+app.disable('x-powered-by')
 
-const server = http.createServer(app)
-server.on('listening', () => {
-  console.log(`Server listening on http://localhost:${server.address().port}`)
-})
-server.on('close', () => {
-  console.log(`Server closed`)
-})
-server.listen(port)
-
-if (module.hot) {
-  module.hot.accept('../back-end/app', app => {
-    server.removeListener('request', currentApp)
-    server.on('request', app)
-    currentApp = app
-  })
-
-  module.hot.accept('../config', ({ port }) => {
-    if (server.listeing) {
-      server.close(() => {
-        if (!server.listening) {
-          server.listen(port)
-        }
-      })
-    } else {
-      server.listen(port)
-    }
-  })
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+if (enableGraphiQL) {
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 }
+
+app.use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+
+app.use(logFileApi())
+
+app.use(serverRender())
+
+export default app

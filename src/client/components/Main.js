@@ -1,7 +1,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Switch from 'react-router-dom/Switch'
+import Route from 'react-router-dom/Route'
 
 import App from './App'
 
@@ -10,7 +11,9 @@ export default class Main extends React.PureComponent {
     return (
       <Provider store={this.props.store}>
         <MuiThemeProvider muiTheme={this.props.muiTheme}>
-          <App />
+          <Switch>
+            <Route exact path="/" component={App} />
+          </Switch>
         </MuiThemeProvider>
       </Provider>
     )

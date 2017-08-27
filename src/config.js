@@ -10,6 +10,6 @@ export const enableLogFileExport = process.env.RAZZLE_ENABLE_LOG_FILE_EXPORT ===
 
 export const enableLogFileImport = process.env.RAZZLE_ENABLE_LOG_FILE_IMPORT === 'true'
 
-export const dropboxApiKey = process.env.DROPBOX_API_KEY
+export const dropboxApiKey = process.env.RAZZLE_DROPBOX_API_KEY
 
 // = App config ================================================================

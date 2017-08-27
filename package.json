@@ -5,11 +5,9 @@
   "author": "Jukka Hyytiälä",
   "license": "MIT",
   "scripts": {
-    "start:dev": "razzle start",
-    "build": "razzle build",
+    "start": "razzle start",
     "test": "razzle test --env=jsdom",
-    "start": "NODE_ENV=production node build/server.js",
-    "heroku-postbuild": "yarn run build && echo PORT=$PORT"
+    "start:prod": "razzle build && NODE_ENV=production node build/server.js",
   },
   "engines": {
     "node": "~8.0.0"

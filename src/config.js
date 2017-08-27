@@ -1,6 +1,5 @@
 // = Server config =============================================================
 
-console.log(`process.env.PORT == ${process.env.PORT}`)
 export const port = process.env.PORT || 3000
 
 export const enableGraphiQL = process.env.RAZZLE_ENABLE_GRAPHIQL === 'true'

@@ -3,10 +3,12 @@ import './polyfills'
 import app from './server'
 import http from 'http'
 
-const server = http.createServer(app)
-
 let currentApp = app
 
+const server = http.createServer(app)
+server.on('listening', () => {
+  console.log(`Server listening at http://localhost:${server.address().port}`)
+})
 server.listen(process.env.PORT || 3000)
 
 if (module.hot) {

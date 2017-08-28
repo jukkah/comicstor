@@ -10,7 +10,9 @@
     "start:prod": "razzle build && NODE_ENV=production node build/server.js"
   },
   "engines": {
-    "node": "~8.0.0"
+    "node": "~8.0.0",
+    "npm": "~5.3.0",
+    "yarn": "~0.22.0"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

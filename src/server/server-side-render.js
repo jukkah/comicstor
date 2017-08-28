@@ -17,6 +17,7 @@ export default function serverSideRender() {
     if (context.url) {
       res.redirect(301, context.url);
     } else {
+      res.status(context.status || 200)
       res.send(template({
         body: content,
         title: context.title,

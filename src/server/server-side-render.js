@@ -4,26 +4,34 @@ import { StaticRouter } from 'react-router-dom';
 import { createStore } from 'redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
-import { getStore } from './store'
+import getStore from './store'
 import Main from '../client/components/Main';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-export default function serverSideRender() {
-  return async (req, res, next) => {
-    const context = await getContext(req)
-    const content = render({ context, location: req.url })
+export default () => {
+  return (...args) => {
+    return serverSideRender(...args).catch(e => {
+      if (!res.headersSent) res.status(500)
+      res.send('Server error')
+      console.error('[500]', e)
+    })
+  }
+}
 
-    if (context.url) {
-      res.redirect(301, context.url);
-    } else {
-      res.status(context.status || 200)
-      res.send(template({
-        body: content,
-        title: context.title,
-        state: context.store.getState().toJS()
-      }));
-    }
+const serverSideRender = async (req, res, next) => {
+  const context = await getContext(req)
+  const content = render({ context, location: req.url })
+
+  if (context.url) {
+    res.redirect(301, context.url);
+  } else {
+    res.status(context.status || 200)
+    res.send(template({
+      body: content,
+      title: context.title,
+      state: context.store.getState().toJS()
+    }));
   }
 }
 
@@ -37,7 +45,7 @@ const getContext = async (req) => {
 
 const getClientStore = async () => {
   const reducer = state => state
-  const serverStore = await getStore()
+  const serverStore = await getStore
   return createStore(reducer, serverStore.getState())
 }
 

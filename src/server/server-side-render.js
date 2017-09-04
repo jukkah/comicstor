@@ -10,8 +10,8 @@ import Main from '../client/components/Main';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 export default () => {
-  return (...args) => {
-    return serverSideRender(...args).catch(e => {
+  return (req, res, next) => {
+    return serverSideRender(req, res, next).catch(e => {
       if (!res.headersSent) res.status(500)
       res.send('Server error')
       console.error('[500]', e)

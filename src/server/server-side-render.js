@@ -80,7 +80,7 @@ const template = ({ title = '', body = '', state = {} }) => {
         ${styles}
         <script async src="${assets.client.js}"></script>
       </head>
-      <body>
+      <body style="margin:0">
         <div id="root">${body}</div>
         <script>
             // WARNING: See the following for security issues around embedding JSON in HTML:

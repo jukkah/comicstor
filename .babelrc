@@ -1,12 +1,6 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "node": "current",
-        "uglify": true,
-      }
-    }],
-    "react"
+    "razzle"
   ],
   "plugins": [
     "transform-object-rest-spread",

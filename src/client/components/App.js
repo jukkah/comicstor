@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { List, ListItem } from 'material-ui/List'
 import AppBar from 'material-ui/AppBar'
 import Subheader from 'material-ui/Subheader'
+import Link from './Link'
 
 class App extends React.PureComponent {
   render() {
@@ -28,12 +29,13 @@ class App extends React.PureComponent {
       const headerNeeded = year !== lastYear
       lastYear = year
 
+      const id = comicBook.get('id')
+
       return [
         this.renderHeader(year, headerNeeded),
-        <ListItem
-          key={comicBook.get('id')}
-          primaryText={this.renderMainInfo(comicBook)}
-        />,
+        <Link to={`/${id}`} key={id}>
+          <ListItem primaryText={this.renderMainInfo(comicBook)} />
+        </Link>,
       ]
     })
   }

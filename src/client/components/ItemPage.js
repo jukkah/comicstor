@@ -124,7 +124,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.tags.length || this.props.removed) {
       const chips = [
         ...this.props.tags.map(this.renderTag),
-        this.renderTag('Poistettu'),
+        ... (this.props.removed ? this.renderTag('Poistettu') : []),
       ]
 
       return (

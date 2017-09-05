@@ -5,7 +5,7 @@ import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import { withRouter } from 'react-router-dom'
 
-import App from './App'
+import ListPage from './ListPage'
 import ItemPage from './ItemPage'
 import NotFound from './NotFound'
 
@@ -15,7 +15,7 @@ class Main extends React.PureComponent {
       <Provider store={this.props.store}>
         <MuiThemeProvider muiTheme={this.props.muiTheme}>
           <Switch>
-            <Route exact path="/" component={App} />
+            <Route exact path="/" component={ListPage} />
             <Route exact path="/:id" component={ItemPage} />
             <Route component={NotFound} />
           </Switch>

@@ -6,7 +6,7 @@ import Subheader from 'material-ui/Subheader'
 import Link from './Link'
 import moment from 'moment'
 
-class App extends React.PureComponent {
+class ListPage extends React.PureComponent {
   render() {
     return (
       <div>
@@ -61,4 +61,4 @@ const mapStateToProps = state => ({
   comicBooks: state.get('comicBooks'),
 })
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(ListPage)

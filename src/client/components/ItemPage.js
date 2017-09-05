@@ -33,7 +33,7 @@ class ItemPage extends React.PureComponent {
     const name = this.props.name
     const number = this.props.number
     const year = moment(this.props.published).format('YYYY')
-    return `${name} #${number}/${year}`
+    return `#${number}/${year} ${name}`
   }
 
   renderDetails() {

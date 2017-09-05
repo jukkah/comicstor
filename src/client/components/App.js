@@ -4,6 +4,7 @@ import { List, ListItem } from 'material-ui/List'
 import AppBar from 'material-ui/AppBar'
 import Subheader from 'material-ui/Subheader'
 import Link from './Link'
+import moment from 'moment'
 
 class App extends React.PureComponent {
   render() {
@@ -25,7 +26,7 @@ class App extends React.PureComponent {
     let lastYear
 
     return comicBooks.flatMap(comicBook => {
-      const year = comicBook.get('published').substr(0, 4)
+      const year = moment(comicBook.get('published')).format('YYYY')
       const headerNeeded = year !== lastYear
       lastYear = year
 
@@ -51,7 +52,7 @@ class App extends React.PureComponent {
   renderMainInfo(comicBook) {
     const name = comicBook.get('name')
     const number = comicBook.get('number')
-    const published = comicBook.get('published')
+    const published = moment(comicBook.get('published')).format('D.M.YYYY')
     return `${name} #${number} - ${published}`
   }
 }

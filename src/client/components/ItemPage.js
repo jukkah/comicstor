@@ -12,11 +12,6 @@ import moment from 'moment'
 import numeral from 'numeral'
 
 class ItemPage extends React.PureComponent {
-  static defaultProps = {
-    condition: 10,
-    removed: true,
-  }
-
   handleBack = () => {
    this.props.history.goBack()
   };

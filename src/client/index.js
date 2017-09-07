@@ -5,7 +5,7 @@ import BrowserRouter from 'react-router-dom/BrowserRouter'
 import { fromJS } from 'immutable'
 import { createStore } from 'redux'
 
-import Main from './components/Main'
+import Routes from './Routes'
 
 const initApp = () => {
   const store = getStore()
@@ -34,7 +34,7 @@ const renderApp = (store) => {
 const render = (store) => {
   return (
     <BrowserRouter>
-      <Main store={store} />
+      <Routes store={store} />
     </BrowserRouter>
   )
 }

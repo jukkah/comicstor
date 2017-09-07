@@ -5,11 +5,11 @@ import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import { withRouter } from 'react-router-dom'
 
-import ListPage from './ListPage'
-import ItemPage from './ItemPage'
-import NotFound from './NotFound'
+import ListPage from './components/ListPage'
+import ItemPage from './components/ItemPage'
+import NotFound from './components/NotFound'
 
-class Main extends React.PureComponent {
+class Routes extends React.PureComponent {
   render() {
     return (
       <Provider store={this.props.store}>
@@ -25,4 +25,4 @@ class Main extends React.PureComponent {
   }
 }
 
-export default withRouter(Main)
+export default withRouter(Routes)

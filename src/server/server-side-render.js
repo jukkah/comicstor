@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import getStore from './store'
-import Main from '../client/components/Main';
+import Routes from '../client/Routes';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -58,7 +58,7 @@ const getTheme = (req) => {
 const render = ({ context, location }) => {
   return renderToString(
     <StaticRouter location={location} context={context}>
-      <Main store={context.store} muiTheme={context.theme} />
+      <Routes store={context.store} muiTheme={context.theme} />
     </StaticRouter>
   )
 }

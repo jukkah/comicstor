@@ -5,9 +5,9 @@ import Switch from 'react-router-dom/Switch'
 import Route from 'react-router-dom/Route'
 import { withRouter } from 'react-router-dom'
 
-import ListPage from './components/ListPage'
-import ItemPage from './components/ItemPage'
-import NotFound from './components/NotFound'
+import ListPage from './pages/ListPage'
+import ItemPage from './pages/ItemPage'
+import NotFound from './pages/NotFound'
 
 class Routes extends React.PureComponent {
   render() {

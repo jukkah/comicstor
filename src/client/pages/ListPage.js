@@ -8,7 +8,7 @@ import ActionSearch from 'material-ui/svg-icons/action/search'
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
 import Subheader from 'material-ui/Subheader'
-import Link from './Link'
+import Link from '../components/Link'
 import moment from 'moment'
 
 class ListPage extends React.PureComponent {

@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 
 import ListPage from './pages/ListPage'
 import ItemPage from './pages/ItemPage'
+import EditPage from './pages/EditPage'
 import NotFound from './pages/NotFound'
 
 class Routes extends React.PureComponent {
@@ -17,6 +18,7 @@ class Routes extends React.PureComponent {
           <Switch>
             <Route exact path="/" component={ListPage} />
             <Route exact path="/:id" component={ItemPage} />
+            <Route exact path="/:id/edit" component={EditPage} />
             <Route component={NotFound} />
           </Switch>
         </MuiThemeProvider>

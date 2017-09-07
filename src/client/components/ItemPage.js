@@ -6,7 +6,8 @@ import AppBar from 'material-ui/AppBar'
 import Subheader from 'material-ui/Subheader'
 import Avatar from 'material-ui/Avatar'
 import IconButton from 'material-ui/IconButton'
-import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import numeral from 'numeral'
@@ -16,15 +17,33 @@ class ItemPage extends React.PureComponent {
    this.props.history.goBack()
   };
 
+  handleEdit = () => {
+    this.props.history.push(`/${this.props.id}/edit`)
+  }
+
+  handleRemove = () => {
+    console.log(`remove ${this.props.id}`)
+  }
+
   render() {
     return (
       <div>
         <AppBar
           title={this.renderTitle()}
-          iconElementLeft={<IconButton><NavigationArrowBack /></IconButton>}
+          iconElementLeft={<IconButton><FontIcon className="material-icons">arrow_back</FontIcon></IconButton>}
           onLeftIconButtonTouchTap={this.handleBack}
+          iconElementRight={<IconButton><FontIcon className="material-icons">delete</FontIcon></IconButton>}
+          onRightIconButtonTouchTap={this.handleRemove}
         />
         {this.renderDetails()}
+        <FloatingActionButton onClick={this.handleEdit} style={{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          margin: '2em',
+        }}>
+          <FontIcon className="material-icons">edit</FontIcon>
+        </FloatingActionButton>
       </div>
     )
   }
@@ -54,6 +73,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.name) {
       return (
         <ListItem
+          leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
           primaryText={this.props.name}
           secondaryText="Nimi"
         />
@@ -65,6 +85,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.number) {
       return (
         <ListItem
+          leftIcon={<FontIcon className="fa fa-hashtag" />}
           primaryText={this.props.number}
           secondaryText="Numero"
         />
@@ -76,6 +97,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.published) {
       return (
         <ListItem
+          leftIcon={<FontIcon className="material-icons">event</FontIcon>}
           primaryText={moment(this.props.published).format('D.M.YYYY')}
           secondaryText="Julkaisupäivä"
         />
@@ -89,6 +111,7 @@ class ItemPage extends React.PureComponent {
       const code = this.props.originalPrice.code
       return (
         <ListItem
+          leftIcon={<FontIcon className="material-icons">attach_money</FontIcon>}
           primaryText={`${value} ${code}`}
           secondaryText="Irtonumeron hinta"
         />
@@ -102,6 +125,7 @@ class ItemPage extends React.PureComponent {
       const code = this.props.purchasePrice.code
       return (
         <ListItem
+          leftIcon={<FontIcon className="material-icons">money_off</FontIcon>}
           primaryText={`${value} ${code}`}
           secondaryText="Ostohinta"
         />
@@ -113,6 +137,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.condition) {
       return (
         <ListItem
+          leftIcon={<FontIcon className="material-icons">star</FontIcon>}
           primaryText={`${this.props.condition}/10`}
           secondaryText="Kunto"
         />
@@ -129,6 +154,7 @@ class ItemPage extends React.PureComponent {
 
       return (
         <ListItem
+          leftIcon={<FontIcon className="fa fa-tags" />}
           primaryText={
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {chips}

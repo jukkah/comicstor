@@ -8,7 +8,7 @@ const configureStore = async () => {
     const store = createStore(reducer, await loadState(), applyMiddleware(persister))
     console.log('✅  Server state loaded successfully')
     return store
-  } catch (e) {
+  } catch (error) {
     console.log(error)
     process.exit(1)
   }

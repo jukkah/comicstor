@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { List, ListItem } from 'material-ui/List'
 import Chip from 'material-ui/Chip'
 import AppBar from 'material-ui/AppBar'
-import Subheader from 'material-ui/Subheader'
 import Avatar from 'material-ui/Avatar'
 import IconButton from 'material-ui/IconButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -149,7 +148,7 @@ class ItemPage extends React.PureComponent {
     if (this.props.tags.length || this.props.removed) {
       const chips = [
         ...this.props.tags.map(this.renderTag),
-        ... (this.props.removed ? this.renderTag('Poistettu') : []),
+        ...(this.props.removed ? this.renderTag('Poistettu') : []),
       ]
 
       return (

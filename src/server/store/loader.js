@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable'
-
 import { readFile } from '../fs'
 import { logFile } from '../../config'
 import { reducer, emptyState } from './reducer'

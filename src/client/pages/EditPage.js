@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { List, ListItem } from 'material-ui/List'
+import { ListItem } from 'material-ui/List'
+import TextField from 'material-ui/TextField'
 import Chip from 'material-ui/Chip'
 import AppBar from 'material-ui/AppBar'
 import Avatar from 'material-ui/Avatar'
@@ -56,7 +57,7 @@ class EditPage extends React.PureComponent {
 
   renderDetails() {
     return (
-      <List>
+      <div>
         {this.renderName()}
         {this.renderNumber()}
         {this.renderPublished()}
@@ -64,84 +65,84 @@ class EditPage extends React.PureComponent {
         {this.renderPurchasePrice()}
         {this.renderCondition()}
         {this.renderTags()}
-      </List>
+      </div>
     )
   }
 
   renderName() {
-    if (this.props.name) {
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-          primaryText={this.props.name}
-          secondaryText="Nimi"
-        />
-      )
-    }
+    return (
+      <TextField
+        name="name"
+        fullWidth
+        floatingLabelText="Nimi"
+        defaultValue={this.props.name}
+      />
+    )
   }
 
   renderNumber() {
-    if (this.props.number) {
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="fa fa-hashtag" />}
-          primaryText={this.props.number}
-          secondaryText="Numero"
-        />
-      )
-    }
+    return (
+      <TextField
+        name="number"
+        fullWidth
+        floatingLabelText="Numero"
+        defaultValue={this.props.number}
+      />
+    )
   }
 
   renderPublished() {
-    if (this.props.published) {
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="material-icons">event</FontIcon>}
-          primaryText={moment(this.props.published).format('D.M.YYYY')}
-          secondaryText="Julkaisupäivä"
-        />
-      )
-    }
+    return (
+      <TextField
+        name="published"
+        fullWidth
+        floatingLabelText="Julkaisupäivä"
+        defaultValue={moment(this.props.published).format('D.M.YYYY')}
+      />
+    )
   }
 
   renderOriginalPrice() {
-    if (this.props.originalPrice) {
-      const value = numeral(this.props.originalPrice.value).format('0,0.00')
-      const code = this.props.originalPrice.code
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="material-icons">attach_money</FontIcon>}
-          primaryText={`${value} ${code}`}
-          secondaryText="Irtonumeron hinta"
-        />
-      )
-    }
+    const originalPrice = this.props.originalPrice || {}
+    const value = numeral(originalPrice.value).format('0,0.00')
+    const code = originalPrice.code
+
+    return (
+      <TextField
+        name="originalPrice"
+        fullWidth
+        floatingLabelText="Irtonumeron hinta"
+        defaultValue={`${value} ${code}`}
+
+      />
+    )
   }
 
   renderPurchasePrice() {
-    if (this.props.purchasePrice) {
-      const value = numeral(this.props.purchasePrice.value).format('0,0.00')
-      const code = this.props.purchasePrice.code
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="material-icons">money_off</FontIcon>}
-          primaryText={`${value} ${code}`}
-          secondaryText="Ostohinta"
-        />
-      )
-    }
+    const purchasePrice = this.props.purchasePrice || {}
+    const value = numeral(purchasePrice.value).format('0,0.00')
+    const code = purchasePrice.code
+
+    return (
+      <TextField
+        name="purchasePrice"
+        fullWidth
+        floatingLabelText="Ostohinta"
+        defaultValue={`${value} ${code}`}
+
+      />
+    )
   }
 
   renderCondition() {
-    if (this.props.condition) {
-      return (
-        <ListItem
-          leftIcon={<FontIcon className="material-icons">star</FontIcon>}
-          primaryText={`${this.props.condition}/10`}
-          secondaryText="Kunto"
-        />
-      )
-    }
+    return (
+      <TextField
+        name="condition"
+        fullWidth
+        floatingLabelText="Kunto"
+        defaultValue={this.props.condition}
+      />
+    )
   }
 
   renderTags() {

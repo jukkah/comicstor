@@ -2,39 +2,36 @@ import '../polyfills'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import BrowserRouter from 'react-router-dom/BrowserRouter'
-import { fromJS } from 'immutable'
-import { createStore } from 'redux'
+import { ApolloClient } from 'react-apollo'
 
 import Routes from './Routes'
 
 const initApp = () => {
-  const store = getStore()
-  renderApp(store)
+  const client = getClient()
+  renderApp(client)
 }
 
-const getStore = () => {
-  const preloadedState = fromJS(window.__PRELOADED_STATE__)
-  delete window.__PRELOADED_STATE__
+const getClient = () => {
+  const client = new ApolloClient({
+    initialState: window.__APOLLO_STATE__,
+  })
 
-  const reducer = state => state
-  return createStore(
-    reducer,
-    preloadedState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  delete window.__APOLLO_STATE__
+
+  return client
 }
 
-const renderApp = (store) => {
+const renderApp = (client) => {
   ReactDOM.render(
-    render(store),
+    render(client),
     document.getElementById('root')
   )
 }
 
-const render = (store) => {
+const render = (client) => {
   return (
     <BrowserRouter>
-      <Routes store={store} />
+      <Routes client={client} />
     </BrowserRouter>
   )
 }

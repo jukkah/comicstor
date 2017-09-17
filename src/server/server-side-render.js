@@ -1,13 +1,14 @@
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { createStore } from 'redux'
+import React from 'react'
+import { StaticRouter } from 'react-router-dom'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { ApolloClient, renderToStringWithData } from 'react-apollo'
+import { createLocalInterface } from 'apollo-local-query'
+import * as graphql from 'graphql'
 
-import getStore from './store'
-import Routes from '../client/Routes';
+import schema from './schema'
+import Routes from '../client/Routes'
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
 export default () => {
   return (req, res, next) => {
@@ -21,32 +22,35 @@ export default () => {
 
 const serverSideRender = async (req, res, next) => {
   const context = await getContext(req)
-  const content = render({ context, location: req.url })
+  const app = render({ context, location: req.url })
+  const content = await renderToStringWithData(app)
+  const initialState = { apollo: context.client.getInitialState() }
 
   if (context.url) {
-    res.redirect(301, context.url);
+    res.redirect(301, context.url)
   } else {
     res.status(context.status || 200)
     res.send(template({
       body: content,
       title: context.title,
-      state: context.store.getState().toJS()
-    }));
+      initialState
+    }))
   }
 }
 
 const getContext = async (req) => {
   return {
     title: 'Comicstor App',
-    store: await getClientStore(),
     theme: getTheme(req),
+    client: getClient(),
   }
 }
 
-const getClientStore = async () => {
-  const reducer = state => state
-  const serverStore = await getStore
-  return createStore(reducer, serverStore.getState())
+const getClient = () => {
+  return new ApolloClient({
+    networkInterface: createLocalInterface(graphql, schema),
+    ssrMode: true,
+  })
 }
 
 const getTheme = (req) => {
@@ -56,14 +60,14 @@ const getTheme = (req) => {
 }
 
 const render = ({ context, location }) => {
-  return renderToString(
+  return (
     <StaticRouter location={location} context={context}>
-      <Routes store={context.store} muiTheme={context.theme} />
+      <Routes client={context.client} muiTheme={context.theme} />
     </StaticRouter>
   )
 }
 
-const template = ({ title = '', body = '', state = {} }) => {
+const template = ({ title = '', body = '', initialState = {} }) => {
   const styles = assets.client.css
     ? `<link rel="stylesheet" href="${assets.client.css}">`
     : ''
@@ -87,9 +91,9 @@ const template = ({ title = '', body = '', state = {} }) => {
         <script>
             // WARNING: See the following for security issues around embedding JSON in HTML:
             // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-            window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')};
+            window.__APOLLO_STATE__ = ${JSON.stringify(initialState).replace(/</g, '\\u003c')}
         </script>
       </body>
     </html>
-  `);
+  `)
 }

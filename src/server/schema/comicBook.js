@@ -8,7 +8,7 @@ export const ComicBook = `
     originalPrice: Money
     purchasePrice: Money
     condition: Float
-    removed: Boolean!
+    removed: Boolean
     tags: [String!]!
   }
 `

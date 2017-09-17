@@ -18,7 +18,7 @@ export const resolver = {
     // comicBooks(): [ComicBook!]!
     async comicBooks() {
       const store = await getStore
-      return store.getState().get('comicBooks').toJS();
+      return store.getState().get('comicBooks').toJS()
     },
     // commicBook(id: ID!): ComicBook
     async comicBook(root, { id }) {

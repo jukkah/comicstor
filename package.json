@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
+    "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "razzle build && NODE_ENV=production node build/server.js"
   },
@@ -16,7 +17,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
-    "dropbox-fs": "^0.0.5",
+    "dropbox-fs": "^0.1.0",
     "express": "^4.15.3",
     "graphql": "^0.11.1",
     "graphql-server-express": "^1.1.2",

@@ -30,6 +30,7 @@ export const ComicBookInput = `
 
 export const queries = `
   comicBooks: [ComicBook!]!
+  comicBook(id: ID!): ComicBook
   tags: [String!]!
 `
 

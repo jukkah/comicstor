@@ -20,6 +20,10 @@ export const resolver = {
       const store = await getStore
       return store.getState().get('comicBooks').toJS();
     },
+    // commicBook(id: ID!): ComicBook
+    async comicBook(root, { id }) {
+      return findById(id)
+    },
     // tags(): [String!]!
     async tags() {
       const store = await getStore
